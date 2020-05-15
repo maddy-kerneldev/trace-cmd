@@ -124,6 +124,8 @@ BUILD_PYTHON := report_noswig
 NO_PYTHON = 1
 endif
 
+NO_PYTHON = 1
+
 ifndef NO_PYTHON
 PYTHON		:= ctracecmd.so
 
@@ -229,7 +231,7 @@ INCLUDES += -I$(obj)/tracecmd/include
 include $(src)/features.mk
 
 # Set compile option CFLAGS if not set elsewhere
-CFLAGS ?= -g -Wall
+CFLAGS ?= -g -Wall -D__WASM_TRACECMD__ -s ALLOW_MEMORY_GROWTH=1 -s STANDALONE_WASM
 CPPFLAGS ?=
 LDFLAGS ?=
 
@@ -336,6 +338,7 @@ libtracefs.a: $(LIBTRACEFS_STATIC)
 libtracefs.so: $(LIBTRACEFS_SHARED)
 
 libs: $(LIBTRACECMD_SHARED) $(LIBTRACEEVENT_SHARED) $(LIBTRACEFS_SHARED)
+slibs: $(LIBTRACECMD_STATIC) $(LIBTRACEEVENT_STATIC) $(LIBTRACEFS_STATIC)
 
 test: force $(LIBTRACEEVENT_STATIC) $(LIBTRACEFS_STATIC) $(LIBTRACECMD_STATIC)
 ifneq ($(CUNIT_INSTALLED),1)
