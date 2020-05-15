@@ -10,6 +10,9 @@
 #include <dirent.h>
 #include <errno.h>
 #include <stdlib.h>
+#ifdef __WASM_TRACECMD__
+#include <limits.h>
+#endif
 
 #include "trace-local.h"
 
@@ -77,8 +80,10 @@ struct command {
 struct command commands[] = {
 	{"report", trace_report},
 	{"snapshot", trace_snapshot},
+#ifndef __WASM_TRACECMD__
 	{"hist", trace_hist},
 	{"mem", trace_mem},
+#endif
 	{"listen", trace_listen},
 #ifdef VSOCK
 	{"agent", trace_agent},
@@ -102,7 +107,9 @@ struct command commands[] = {
 	{"show", trace_show},
 	{"list", trace_list},
 	{"help", trace_usage},
+#ifndef __WASM_TRACECMD__
 	{"dump", trace_dump},
+#endif
 	{"-h", trace_usage},
 };
 

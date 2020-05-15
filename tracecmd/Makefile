@@ -12,26 +12,28 @@ BUILDGUI := 0
 include $(src)/scripts/utils.mk
 
 TRACE_CMD_OBJS =
-TRACE_CMD_OBJS += trace-cmd.o
-TRACE_CMD_OBJS += trace-record.o
-TRACE_CMD_OBJS += trace-read.o
-TRACE_CMD_OBJS += trace-split.o
-TRACE_CMD_OBJS += trace-listen.o
-TRACE_CMD_OBJS += trace-stack.o
-TRACE_CMD_OBJS += trace-hist.o
-TRACE_CMD_OBJS += trace-mem.o
-TRACE_CMD_OBJS += trace-snapshot.o
-TRACE_CMD_OBJS += trace-stat.o
 TRACE_CMD_OBJS += trace-profile.o
-TRACE_CMD_OBJS += trace-stream.o
-TRACE_CMD_OBJS += trace-record.o
-TRACE_CMD_OBJS += trace-restore.o
-TRACE_CMD_OBJS += trace-check-events.o
-TRACE_CMD_OBJS += trace-show.o
-TRACE_CMD_OBJS += trace-list.o
-TRACE_CMD_OBJS += trace-usage.o
-TRACE_CMD_OBJS += trace-dump.o
-TRACE_CMD_OBJS += trace-tsync.o
+TRACE_CMD_OBJS += trace-read.o
+#TRACE_CMD_OBJS += trace-cmd.o
+#TRACE_CMD_OBJS += trace-record.o
+#TRACE_CMD_OBJS += trace-read.o
+#TRACE_CMD_OBJS += trace-split.o
+#TRACE_CMD_OBJS += trace-listen.o
+#TRACE_CMD_OBJS += trace-stack.o
+#TRACE_CMD_OBJS += trace-hist.o
+#TRACE_CMD_OBJS += trace-mem.o
+#TRACE_CMD_OBJS += trace-snapshot.o
+#TRACE_CMD_OBJS += trace-stat.o
+#TRACE_CMD_OBJS += trace-profile.o
+#TRACE_CMD_OBJS += trace-stream.o
+#TRACE_CMD_OBJS += trace-record.o
+#TRACE_CMD_OBJS += trace-restore.o
+#TRACE_CMD_OBJS += trace-check-events.o
+#TRACE_CMD_OBJS += trace-show.o
+#TRACE_CMD_OBJS += trace-list.o
+#TRACE_CMD_OBJS += trace-usage.o
+#TRACE_CMD_OBJS += trace-dump.o
+#TRACE_CMD_OBJS += trace-tsync.o
 
 ifeq ($(VSOCK_DEFINED), 1)
 TRACE_CMD_OBJS += trace-agent.o

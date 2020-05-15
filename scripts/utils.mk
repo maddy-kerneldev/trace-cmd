@@ -44,16 +44,16 @@ endif
 
 do_fpic_compile =					\
 	($(print_fpic_compile)				\
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(EXT) -fPIC $< -o $@)
+	$(CC) -s ALLOW_MEMORY_GROWTH=1 -c $(CPPFLAGS) $(CFLAGS) $(EXT) -fPIC $< -o $@)
 
 do_compile =							\
 	($(if $(GENERATE_PIC), $(do_fpic_compile),		\
 	 $(print_compile)					\
-	 $(CC) -c $(CPPFLAGS) $(CFLAGS) $(EXT) $< -o $@))
+	 $(CC) -s ALLOW_MEMORY_GROWTH=1 -c $(CPPFLAGS) $(CFLAGS) $(EXT) $< -o $@))
 
 do_app_build =						\
 	($(print_app_build)				\
-	$(CC) $^ -rdynamic -o $@ $(LDFLAGS) $(CONFIG_LIBS) $(LIBS))
+	$(CC) $^ -s ALLOW_MEMORY_GROWTH=1 -rdynamic -o $@ $(LDFLAGS) $(CONFIG_LIBS) $(LIBS))
 
 do_build_static_lib =				\
 	($(print_static_lib_build)		\

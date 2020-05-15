@@ -18,8 +18,8 @@ void warning(const char *fmt, ...);
 
 #ifndef htonll
 # if __BYTE_ORDER == __LITTLE_ENDIAN
-#define htonll(x) __bswap_64(x)
-#define ntohll(x) __bswap_64(x)
+#define htonll(x) bswap_64(x)
+#define ntohll(x) bswap_64(x)
 #else
 #define htonll(x) (x)
 #define ntohll(x) (x)

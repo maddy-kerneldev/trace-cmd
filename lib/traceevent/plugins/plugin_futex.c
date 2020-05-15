@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef __WASM_TRACECMD__
 #include <linux/futex.h>
+#endif
 
 #include "trace-cmd.h"
 

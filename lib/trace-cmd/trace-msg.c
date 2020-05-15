@@ -20,17 +20,21 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/types.h>
-#include <linux/types.h>
+#include <byteswap.h>
+//#include <linux/types.h>
 
 #include "trace-write-local.h"
 #include "trace-cmd-local.h"
 #include "trace-local.h"
 #include "trace-msg.h"
 
+#ifdef __WASM_TRACECMD__
+typedef unsigned int u32;
+typedef unsigned int be32;
+#else
 typedef __u32 u32;
 typedef __be32 be32;
-typedef __u64 u64;
-typedef __s64 s64;
+#endif
 
 static inline void dprint(const char *fmt, ...)
 {

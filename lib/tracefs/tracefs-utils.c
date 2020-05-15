@@ -9,10 +9,15 @@
 #include <stdlib.h>
 #include <sys/mount.h>
 #include <sys/stat.h>
+#ifdef __WASM_TRACECMD__
+#include <limits.h>
+#else
 #include <linux/limits.h>
+#endif
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+
 
 #include "tracefs.h"
 

@@ -13,7 +13,11 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#ifdef __WASM_TRACECMD__
+#include <limits.h>
+#else
 #include <linux/limits.h>
+#endif
 #include "tracefs.h"
 #include "tracefs-local.h"
 

@@ -12,6 +12,10 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
+#ifdef __WASM_TRACECMD__
+#include <sys/types.h>
+#include <unistd.h>
+#endif
 
 #include <linux/time64.h>
 
@@ -932,6 +936,17 @@ static void *allocate_page_map(struct tracecmd_input *handle,
 	page_map->size = map_size;
 	page_map->offset = map_offset;
 
+#ifdef __WASM_TRACECMD__
+	page_map->map = (void *)malloc(map_size);
+	if (!page_map->map)
+		printf("M14: malloc failed\n");
+	if (lseek(handle->fd, map_offset, SEEK_SET) < 0)
+		printf("M14: lseek failed\n");
+
+	read(handle->fd, page_map->map, map_size);
+	if (lseek(handle->fd, 0, SEEK_SET) < 0)
+		printf("M14: lseek failed\n");
+#else
 	page_map->map = mmap(NULL, map_size, PROT_READ, MAP_PRIVATE,
 			 handle->fd, map_offset);
 
@@ -951,6 +966,7 @@ static void *allocate_page_map(struct tracecmd_input *handle,
 		 */
 		goto again;
 	}
+#endif
 
 	list_add(&page_map->list, &cpu_data->page_maps);
  out:

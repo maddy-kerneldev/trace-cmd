@@ -299,6 +299,48 @@ static void test_save(struct tep_record *record, int cpu)
 }
 #endif
 
+#ifdef __WASM_TRACECMD__
+int count_cpus(void)
+{
+	FILE *fp;
+	char buf[1024];
+	int cpus = 0;
+	char *pbuf;
+	size_t *pn;
+	size_t n;
+	int r;
+
+	cpus = sysconf(_SC_NPROCESSORS_CONF);
+	if (cpus > 0)
+		return cpus;
+
+	warning("sysconf could not determine number of CPUS");
+
+	/* Do the hack to figure out # of CPUS */
+	n = 1024;
+	pn = &n;
+	pbuf = buf;
+
+	fp = fopen("/proc/cpuinfo", "r");
+	if (!fp)
+		die("Can not read cpuinfo");
+
+	while ((r = getline(&pbuf, pn, fp)) >= 0) {
+	       char *p;
+
+	       if (strncmp(buf, "processor", 9) != 0)
+			continue;
+		for (p = buf+9; isspace(*p); p++)
+			;
+		if (*p == ':')
+			cpus++;
+	}
+	fclose(fp);
+
+	return cpus;
+}
+#endif
+
 static void add_input(const char *file)
 {
 	struct input_files *item;
@@ -1453,7 +1495,11 @@ enum {
 	OPT_cpu		= 255,
 };
 
+#ifdef __WASM_TRACECMD__
+void main (int argc, char **argv)
+#else
 void trace_report (int argc, char **argv)
+#endif
 {
 	struct tracecmd_input *handle;
 	struct tep_handle *pevent;
@@ -1490,6 +1536,7 @@ void trace_report (int argc, char **argv)
 	list_head_init(&handle_list);
 	list_head_init(&input_files);
 
+#ifndef __WASM_TRACECMD__
 	if (argc < 2)
 		usage(argv);
 
@@ -1700,7 +1747,7 @@ void trace_report (int argc, char **argv)
 			usage(argv);
 		input_file = argv[optind + 1];
 	}
-
+#endif
 	if (!input_file)
 		input_file = default_input_file;
 

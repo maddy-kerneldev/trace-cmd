@@ -7,6 +7,7 @@
 #define _TRACE_CMD_H
 
 #include "traceevent/event-parse.h"
+#include <pthread.h>
 
 #define TRACECMD_MAGIC { 23, 8, 68 }
 

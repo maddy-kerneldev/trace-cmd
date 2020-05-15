@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <dlfcn.h>
+#ifdef __WASM_TRACECMD__
+#include <limits.h>
+#endif
 #include <sys/stat.h>
 #include <libgen.h>
 #include "trace-cmd.h"

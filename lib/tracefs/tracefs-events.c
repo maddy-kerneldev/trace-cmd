@@ -13,6 +13,9 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#ifdef __WASM_TRACECMD__
+#include <limits.h>
+#endif
 
 #include "kbuffer.h"
 #include "tracefs.h"
